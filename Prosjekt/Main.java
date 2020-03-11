@@ -2,13 +2,22 @@ package Prosjekt;
 
 import java.util.Scanner;
 
-public class Main {
+public class Main extends DBConnection {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		Rolle rolle;
 		Selskap selskap;
 		Film film;
+		Anmeldelse anmelde;
+		
+		try {
+			film = new Film();
+			film.connect();
+		} catch (Exception e) {
+			// TODO: handle exception
+			throw new IllegalArgumentException("Gjør koden ordentlig!!!");
+		}
 		
 		System.out.println("Hva vil du gjøre (1-5)?");
 		System.out.println("1. Finne navnet på alle rollene en gitt skuespiller har.");
@@ -55,7 +64,8 @@ public class Main {
 			}
 			
 			case 5: {
-				
+				anmelde = new Anmeldelse();
+				anmelde.nyAnmeldelse();
 				break;
 			}
 			
