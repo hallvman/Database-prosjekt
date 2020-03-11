@@ -1,37 +1,35 @@
 CREATE TABLE Person (
    PersonID    	INTEGER NOT NULL UNIQUE,
-   Navn  				VARCHAR(30),
-   Fodselsdato	DATE,
-   Nasjonalitet VARCHAR(30),
+   Navn  			VARCHAR(30),
+   Fodselsdato	   DATE,
+   Nasjonalitet   VARCHAR(30),
    CONSTRAINT Person_PK PRIMARY KEY (PersonID));
 
 CREATE TABLE Rolle (
    RolleID				INTEGER NOT NULL UNIQUE,
-   RolleType			VARCHAR(10),
-   RolleInfo			VARCHAR(30),
-   RolleAvPerson 	INTEGER,
+   RolleType			VARCHAR(20),
+   RolleNavn			VARCHAR(30),
+   RolleAvPerson 	   INTEGER,
+   RolleIFilm			INTEGER,
    CONSTRAINT Rolle_PK PRIMARY KEY (RolleID),
+   CONSTRAINT Film_FK FOREIGN KEY (RolleIFilm) REFERENCES Rolle(RolleID),
    CONSTRAINT Rolle_FK FOREIGN KEY (RolleAvPerson) REFERENCES Person(PersonID)); 
 
-
-   
 CREATE TABLE Sjanger (
-   SjangerID    INTEGER NOT NULL UNIQUE,
+   SjangerID         INTEGER NOT NULL UNIQUE,
    Navn  				VARCHAR(30),
-   Beskrivelse	VARCHAR(30),
+   Beskrivelse	      VARCHAR(30),
    CONSTRAINT Sjanger_PK PRIMARY KEY (SjangerID));
 
 CREATE TABLE Film (
-   FilmID						INTEGER NOT NULL UNIQUE,
+   FilmID					INTEGER NOT NULL UNIQUE,
    MedieID					INTEGER NOT NULL UNIQUE,
-   Tittel						VARCHAR(30),
-   Lengde						INTEGER,
-   Lanseringsaar		YEAR, 
+   Tittel					VARCHAR(30),
+   Lengde					INTEGER,
+   Lanseringsaar		   YEAR, 
    Storyline				VARCHAR(200),
-   RolleIFilm				INTEGER,
-   MediaHarSjanger	INTEGER,
+   MediaHarSjanger	   INTEGER,
    CONSTRAINT Film_PK PRIMARY KEY (FilmID),
-   CONSTRAINT Film_FK FOREIGN KEY (RolleIFilm) REFERENCES Rolle(RolleID),
    CONSTRAINT Film_FK_sjanger FOREIGN KEY (MediaHarSjanger) REFERENCES Sjanger(SjangerID));
 
 CREATE TABLE Serie (
@@ -46,18 +44,18 @@ CREATE TABLE Serie (
 CREATE TABLE Episode (
    MedieID				INTEGER NOT NULL UNIQUE,
    EpisodeNr			INTEGER NOT NULL,
-   Navn						VARCHAR(30),
+   Navn					VARCHAR(30),
    Spilletid			INTEGER,
    Storyline			VARCHAR(200),
    CONSTRAINT 		Serie_PK PRIMARY KEY (MedieID));
 
 CREATE TABLE Selskap (
-   SelskapsID   	INTEGER NOT NULL UNIQUE,
+   SelskapsID   	   INTEGER NOT NULL UNIQUE,
    Adresse				VARCHAR(30),
-   Navn						VARCHAR(30),
-   Nasjonalitet 	VARCHAR(30),
-   SelskapEierMedia		VARCHAR(20),
-   FilmID					INTEGER,
+   Navn					VARCHAR(30),
+   Nasjonalitet 	   VARCHAR(30),
+   SelskapEierMedia	VARCHAR(20),
+   FilmID				INTEGER,
    SerieID				INTEGER,
    CONSTRAINT Selskap_FK_1 FOREIGN KEY (FilmID) REFERENCES Film(FilmID),
    CONSTRAINT Selskap_FK_2 FOREIGN KEY (SerieID) REFERENCES Serie(SerieID));
@@ -68,7 +66,7 @@ CREATE TABLE Anbefalinger (
    Dato			DATE,
    Rating		INT); 
 
-   CREATE TABLE Kommentarer (
+CREATE TABLE Kommentarer (
    BrukerID		INTEGER NOT NULL UNIQUE,
    MedieID    	VARCHAR(30) UNIQUE,
    Kommentar  	VARCHAR(500),
@@ -79,8 +77,8 @@ CREATE TABLE Anbefalinger (
 CREATE TABLE Brukere (
    BrukerID    	INTEGER NOT NULL UNIQUE,
    Brukernavn  	VARCHAR(30) UNIQUE,
-   Score		DATE,
-   KommentarID	INTEGER,
+   Score		      DATE,
+   KommentarID	   INTEGER,
    AnbefalingID	INTEGER,
    CONSTRAINT Bruker_PK PRIMARY KEY (BrukerID),
    CONSTRAINT Kommentar_FK FOREIGN KEY (KommentarID) REFERENCES Kommentarer(BrukerID),
