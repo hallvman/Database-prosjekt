@@ -27,6 +27,7 @@ public class Main{
 		System.out.println("5. Sette inn ny anmeldelse av en episode i en serie.");
 		System.out.println("Skriv inn en ett for for hva du vil gjore: ");
 
+	do{
 		Scanner scanner = new Scanner(System.in);
 		int mulighet = scanner.nextInt();
 		
@@ -70,5 +71,6 @@ public class Main{
 			default:
 				throw new IllegalArgumentException("Ikke en mulighet. Maa vaere 1-5, kan ikke vaere: " + mulighet);
 			}
+		} while(true);
 	}
 }

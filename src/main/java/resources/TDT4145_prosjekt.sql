@@ -3,7 +3,7 @@ USE movies;
 CREATE TABLE Person (
    PersonID    	INTEGER NOT NULL UNIQUE,
    Navn  			VARCHAR(30),
-   Fodselsdato	   DATE,
+   Fodselsdato	   VARCHAR(40),
    Nasjonalitet   VARCHAR(30),
    CONSTRAINT Person_PK PRIMARY KEY (PersonID));
 CREATE TABLE Rolle (
@@ -63,13 +63,13 @@ CREATE TABLE Kommentarer (
    BrukerID		INTEGER NOT NULL UNIQUE,
    MedieID    	VARCHAR(30) UNIQUE,
    Kommentar  	VARCHAR(500),
-   Dato			DATE,
+   Dato			varchar(40),
    CONSTRAINT Media_FK_1 FOREIGN KEY (BrukerID) References Film(MedieID),
    CONSTRAINT Media_FK_2E FOREIGN KEY (BrukerID) References Episode(MedieID));
 CREATE TABLE Brukere (
    BrukerID    	INTEGER NOT NULL UNIQUE,
    Brukernavn  	VARCHAR(30) UNIQUE,
-   Score		      DATE,
+   Score		      VARCHAR(40),
    KommentarID	   INTEGER,
    AnbefalingID	INTEGER,
    CONSTRAINT Bruker_PK PRIMARY KEY (BrukerID),

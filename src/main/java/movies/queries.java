@@ -55,8 +55,6 @@ public class queries {
 			}	catch (Exception e) {System.out.println("Could not execute sql statements\n");}
 		}
 	}
-
-	public connect get_connected(){return movies;}
 	public void getRolle(int personID){
 		try {
 			Statement stmt = movies.conn.createStatement();
@@ -98,28 +96,30 @@ public class queries {
 	public void insertFilm(){
 		String film, sjanger, rolle, person, selskap;
 		try {
-			film = "INSERT INTO Film" 
-					+ " (FilmID, MedieID, tittel, Lengde, Lanseringsaar, Storyline, mediaHarSjanger)"
-					+ "values ('1', '2', 'Star Wars: A New Hope', '125', '1977', 'After Princess Leia.....', '1')";
 			sjanger = "INSERT INTO Sjanger"
 					+ " (SjangerID, Navn, Beskrivelse)"
 					+ " values (1, 'Action', 'Actionfylt');";
+			film = "INSERT INTO Film" 
+					+ " (FilmID, MedieID, tittel, Lengde, Lanseringsaar, Storyline, mediaHarSjanger)"
+					+ "values ('1', '1', 'Star Wars: A New Hope', '125', '1977', 'After Princess Leia.....', '1');";
 			rolle = "INSERT INTO Rolle"
-					+ " (RolleID, RolleType, RolleInfo, RolleAvPerson, RolleIFilm)"
-					+ "values (1, 'hovedperson', 'Prinsesse leia', '1', '1');";
+					+ " (RolleID, RolleType, RolleNavn, RolleIFilm)"
+					+ " values (1, 'hovedperson', 'Prinsesse leia', '1');";
 			person = "INSERT INTO Person"
-					+ " (personID, Navn, Fodselsdato, Nasjonalitet)"
-					+ " values (1, 'Carrie Fisher', '21. oktober 1956', 'Amerikansk');";
+					+ " (PersonID, Navn, Fodselsdato, Nasjonalitet)"
+					+ " values (1, 'Carrie Fisher', '21.oktober.1956', 'Amerikansk');";
 			selskap = "INSERT INTO Selskap"
 					+ " (SelskapsID, Adresse, Navn, Nasjonalitet, FilmID)"
 					+ " values ('1', 'Walt Disnet gate 1', 'LucasFilm', 'Amerikansk', '1');";
-			
+
 			stmt.execute("USE movies;");
-			stmt.execute(sjanger);
-		//stmt.executeUpdate(rolle);
-		//stmt.executeUpdate(person);
-		//stmt.executeUpdate(selskap);
+			stmt.executeUpdate(sjanger);
+			stmt.executeUpdate(film);
+			stmt.executeUpdate(person);
+			stmt.executeUpdate(rolle);
+			stmt.executeUpdate(selskap);
 			
+			movies.conn.commit();
 			System.out.println("Insert complete");
 			
 		} catch (Exception e) {
@@ -127,18 +127,24 @@ public class queries {
 		}
 	}
 	public void insertReview(){
+		String kommentarer, bruker, episode;
 		try {
-			String sql = "INSERT into kommentarer"
+			kommentarer = "INSERT into Kommentarer"
 					+ "(MedieID, Kommentar, Dato, BrukerID)"
-					+ "values ('1', 'Kommentar', '13. April', '1')"
-					+ "INSERT into bruker"
-					+ "(BrukerID, BrukerNavn, Score, kommentarer)"
-					+ "values ('1', 'Hallvman', '100', 'Heipaadeg')"
-					+ "INSERT into Episode"
-					+ "(EpisodeNr, Navn, spilletid, sesong)"
-					+ "values ('1', 'Pilot', '45', '1')";
-					
-			stmt.execute(sql);
+					+ "values ('1', 'Kommentar', '13. April', '1');";
+			bruker = "INSERT into Brukere"
+					+ "(BrukerID, BrukerNavn, Score)"
+					+ "values ('1', 'Hallvman', '100');";
+			episode = "INSERT into Episode"
+					+ "(MedieID, EpisodeNr, Navn, spilletid)"
+					+ "values (1, 1, 'Pilot', '45');";
+
+			stmt.execute("USE movies");
+			stmt.execute(episode);
+			//stmt.execute(kommentarer);
+			stmt.execute(bruker);
+
+			movies.conn.commit();
 			
 			System.out.println("Insert complete");
 			
