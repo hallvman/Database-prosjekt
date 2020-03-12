@@ -20,8 +20,8 @@ public abstract class DBConn {
 
 	    // Properties for user and password.
             Properties p = new Properties();
-            p.put("user", "yoursteelingmyname");
-            p.put("password", "password");           
+            p.put("user", "username");
+            p.put("password", "mypassword");           
             conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1?autoReconnect=true&useSSL=false", p);
         } catch (Exception e)
     	{

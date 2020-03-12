@@ -15,14 +15,20 @@ import java.io.IOException;
 
 public class queries {
 	connect movies;
-	Statement stmnt;
+	Statement stmt;
 
 	public queries(){
-		movies = new connect();
+		get_connection();
 	}
-
+	private void get_connection(){
+		try{
+			movies = new connect();
+			stmt = movies.conn.createStatement();
+		} catch (Exception e){}
+	}
 	private String read_sql_file(){
-		Path path = Paths.get("src/main/java/resources/sql_script");
+		Path path = Paths.get("src/main/java/resources/TDT4145_prosjekt.sql");
+		//Path path = Paths.get("src/main/java/resources/sql_script");
 		try
 		{
 			String sql_file = new String (Files.readAllBytes(path));
@@ -38,29 +44,84 @@ public class queries {
 
 		if(sql != ""){
 			try{
-				stmnt = movies.conn.createStatement();
 				System.out.println("Creating database\n");
 
 				for(int i=0; i<sql_statements.length-1; i++){
 					sql_statements[i] += ';';
-					stmnt.execute(sql_statements[i]);
+					stmt.execute(sql_statements[i]);
 				}
 			}	catch (Exception e) {System.out.println("Could not execute sql statements\n");}
 		}
 	}
+
+	public connect get_connected(){return movies;}
+	public void getRolle(int personID){
+		try {
+			Statement stmt = movies.conn.createStatement();
+			ResultSet rs = stmt.executeQuery("Select Rolle.rolleinfo From Rolle inner join Person on Rolle.rolleid = person.personID Where PersonId=" + personID);
+			while (rs.next()) {
+				System.out.println(rs.getString("rolleinfo"));
+			}
+			
+		} catch (Exception e) {
+			System.out.println("Fikk error ved 'Select'");
+		}
+	}
+	public void getFilm(int personID){
+		try {
+			ResultSet rs = stmt.executeQuery("SELECT film.tittel from film"
+					+ "INNER JOIN sjanger ON film.filmID = sjanger.sjangerID "
+					+ "INNER JOIN person ON sjanger.sjangerID = person.personID "
+					+ "WHERE personID=" + personID);
+			while(rs.next()) {
+				System.out.println(rs.getString("Navn") + rs.getInt("rolleinfo"));
+			}
+		} catch (Exception e) {
+			throw new IllegalArgumentException("Error ved 'Select'");
+		}
+	}
+	public void getFilmFromCompany(){
+		try {
+			ResultSet rs = stmt.executeQuery("SELECT selskap.navn, count(*) as antall from selskap "
+					+ "INNER JOIN film ON selskap.selskapID = film.filmID "
+					+ "INNER JOIN sjanger ON film.filmID = sjanger.sjangerID "
+					+ "GROUP BY selskap.navn");
+			while(rs.next()) {
+				System.out.println(rs.getString("Navn") + rs.getInt("Antall"));
+			}
+		} catch (Exception e) {
+			throw new IllegalArgumentException("Error ved 'Select'");
+		}
+	}
+	public void insertFilm(){
+		String film, sjanger, rolle, person, selskap;
+		try {
+			film = "INSERT INTO Film" 
+					+ " (FilmID, medieID, tittel, Lengde, Lanseringsaar, Storyline, mediaHarSjanger)"
+					+ "values ('1', '2', 'Star Wars: A New Hope', '125', '1977', 'After Princess Leia.....', '1')";
+			sjanger = "INSERT INTO Sjanger"
+					+ " (SjangerID, Navn, Beskrivelse)"
+					+ " values (1, 'Action', 'Actionfylt');";
+			rolle = "INSERT INTO Rolle"
+					+ " (RolleID, RolleType, RolleInfo, RolleAvPerson, RolleIFilm)"
+					+ "values (1, 'hovedperson', 'Prinsesse leia', '1', '1');";
+			person = "INSERT INTO Person"
+					+ " (personID, Navn, Fodselsdato, Nasjonalitet)"
+					+ " values (1, 'Carrie Fisher', '21. oktober 1956', 'Amerikansk');";
+			selskap = "INSERT INTO Selskap"
+					+ " (SelskapsID, Adresse, Navn, Nasjonalitet, FilmID)"
+					+ " values ('1', 'Walt Disnet gate 1', 'LucasFilm', 'Amerikansk', '1');";
+			
+			stmt.execute("USE movies;");
+			stmt.execute(sjanger);
+		//stmt.executeUpdate(rolle);
+		//stmt.executeUpdate(person);
+		//stmt.executeUpdate(selskap);
+			
+			System.out.println("Insert complete");
+			
+		} catch (Exception e) {
+			throw new IllegalArgumentException("Error ved 'Select'");
+		}
+	}
 }
-
-
-/*
-			for(int i=1; i<(sql.length()); i++){
-				sql_statement = "";
-				while(sql_statement.charAt(i)!=';'){ i++;
-					sql_statement += String.valueOf(sql.charAt(i));
-				}
-				System.out.println("statement: " + sql_statement);
-				stmnt.execute(sql_statement);
-			}
-			} catch(Exception e){
-				System.out.println("Could not create database\n");
-			}
-*/

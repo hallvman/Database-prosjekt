@@ -1,8 +1,6 @@
 CREATE DATABASE testing;
 
 USE testing;
-
-
 CREATE TABLE Person (
    PersonID    	INTEGER NOT NULL UNIQUE,
    Navn  				VARCHAR(30),

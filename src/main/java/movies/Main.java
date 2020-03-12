@@ -6,11 +6,12 @@ import java.sql.*;
 import java.util.*;
 
 public class Main{
-	//Rolle rolle;
-	//Selskap selskap;
-	//Film film;
 	
   public static void main(String[] args) {
+		Rolle rolle;
+		Selskap selskap;
+		Film film;
+
 		System.out.println("main class\n");
 
 		queries movies_database = new queries();
@@ -25,7 +26,6 @@ public class Main{
 		System.out.println("5. Sette inn ny anmeldelse av en episode i en serie.");
 		System.out.println("Skriv inn en ett for for hva du vil gjore: ");
 
-/*
 		Scanner scanner = new Scanner(System.in);
 		int mulighet = scanner.nextInt();
 		
@@ -35,8 +35,8 @@ public class Main{
 				Scanner scanner1 = new Scanner(System.in);
 				int id = scanner.nextInt();
 				
-				//rolle = new Rolle(id);
-				//rolle.getRolle(id);
+				rolle = new Rolle(id);
+				movies_database.getRolle(id);
 				break;
 			}
 			
@@ -46,19 +46,17 @@ public class Main{
 				int id = scanner.nextInt();
 				
 				film = new Film(id);
-				film.getFilmForSkuespiller(id);
+				film.getFilmForSkuespiller(id, movies_database);
 				break;
 			}
-			
 			case 3: {
 				selskap = new Selskap();
-				selskap.getFilmer();
+				selskap.getFilmer(movies_database);
 				break;
 			}
-			
 			case 4: {
 				film = new Film();
-				film.setFilm();	
+				film.setFilm(movies_database);
 				break;
 			}
 			
@@ -70,6 +68,5 @@ public class Main{
 			default:
 				throw new IllegalArgumentException("Ikke en mulighet. Maa vaere 1-5, kan ikke vaere: " + mulighet);
 			}
-*/
 	}
 }
