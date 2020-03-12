@@ -1,0 +1,63 @@
+
+package movies;
+
+import java.sql.*;
+import java.util.*;
+
+//import java.io.FileWriter;
+//import java.nio.file.Files;
+//import java.nio.file.Path;
+//import java.nio.file.Paths;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.Reader;
+
+import com.ibatis.common.jdbc.SricptRunner;
+
+public class queries {
+	connect movies;
+	Statement stmnt;
+
+	public queries(){
+		movies = new connect();
+	}
+
+	private String read_sql_file(){
+/*
+		try
+		{
+			sql_statement = new String (Files.readAllBytes(path));
+		} 
+		catch (IOException e) 
+		{
+			sql_file = "";
+			System.out.println("File not found exception. Serving empty string, and no sessions are available\n");
+		}
+*/
+		return "";
+	}
+
+	public void create_database(){
+		String sql = read_sql_file();
+		String sql_statement = "src/main/java/resources/testscript";
+
+		try{
+			System.out.println("Creating database\n");
+
+			ScriptRunner sr = new ScriptRunner(movies.conn, false, false);
+			Reader reader = new BufferedReader(new FileReader(sql_statement));
+
+			sr.RunScript(reader);
+
+			//stmnt = movies.conn.createStatement();
+			//stmnt.execute(sql_statement);
+
+		} catch(Exception e){
+			System.out.println("Could not create database\n");
+		}
+
+	}
+}
