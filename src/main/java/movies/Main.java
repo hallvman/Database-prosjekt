@@ -11,6 +11,7 @@ public class Main{
 		Rolle rolle;
 		Selskap selskap;
 		Film film;
+		Anmeldelse anmelde;
 
 		System.out.println("main class\n");
 
@@ -61,7 +62,8 @@ public class Main{
 			}
 			
 			case 5: {
-				
+				anmelde = new Anmeldelse();
+				anmelde.nyAnmeldelse(movies_database);
 				break;
 			}
 			

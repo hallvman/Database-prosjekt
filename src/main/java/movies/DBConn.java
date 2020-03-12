@@ -19,6 +19,8 @@ public abstract class DBConn {
 	    	//Class.forName("com.mysql.cj.jdbc.Driver");
 
 	    // Properties for user and password.
+			// Change properties of username and password accordingly to be able to
+			// connect to local server
             Properties p = new Properties();
             p.put("user", "username");
             p.put("password", "mypassword");           

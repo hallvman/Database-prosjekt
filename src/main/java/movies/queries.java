@@ -46,6 +46,8 @@ public class queries {
 			try{
 				System.out.println("Creating database\n");
 
+				// iterating through the array with sql statements
+				// which is read from the sql file
 				for(int i=0; i<sql_statements.length-1; i++){
 					sql_statements[i] += ';';
 					stmt.execute(sql_statements[i]);
@@ -97,7 +99,7 @@ public class queries {
 		String film, sjanger, rolle, person, selskap;
 		try {
 			film = "INSERT INTO Film" 
-					+ " (FilmID, medieID, tittel, Lengde, Lanseringsaar, Storyline, mediaHarSjanger)"
+					+ " (FilmID, MedieID, tittel, Lengde, Lanseringsaar, Storyline, mediaHarSjanger)"
 					+ "values ('1', '2', 'Star Wars: A New Hope', '125', '1977', 'After Princess Leia.....', '1')";
 			sjanger = "INSERT INTO Sjanger"
 					+ " (SjangerID, Navn, Beskrivelse)"
@@ -117,6 +119,26 @@ public class queries {
 		//stmt.executeUpdate(rolle);
 		//stmt.executeUpdate(person);
 		//stmt.executeUpdate(selskap);
+			
+			System.out.println("Insert complete");
+			
+		} catch (Exception e) {
+			throw new IllegalArgumentException("Error ved 'Select'");
+		}
+	}
+	public void insertReview(){
+		try {
+			String sql = "INSERT into kommentarer"
+					+ "(MedieID, Kommentar, Dato, BrukerID)"
+					+ "values ('1', 'Kommentar', '13. April', '1')"
+					+ "INSERT into bruker"
+					+ "(BrukerID, BrukerNavn, Score, kommentarer)"
+					+ "values ('1', 'Hallvman', '100', 'Heipaadeg')"
+					+ "INSERT into Episode"
+					+ "(EpisodeNr, Navn, spilletid, sesong)"
+					+ "values ('1', 'Pilot', '45', '1')";
+					
+			stmt.execute(sql);
 			
 			System.out.println("Insert complete");
 			

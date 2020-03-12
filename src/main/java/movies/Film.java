@@ -13,7 +13,6 @@ public class Film {
 	}
 	
 	public void getFilmForSkuespiller(int personID, queries q) {
-		//ResultSet rs = q.getFilm();
 		q.getFilm(personID);
 	}
 	
